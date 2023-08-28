@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class questao20 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Defina as opções de sistema operacional
+        String[] sistemasOperacionais = {
+            "Windows Server",
+            "Unix",
+            "Linux",
+            "Netware",
+            "Mac OS",
+            "Outro"
+        };
+        
+        int[] votos = new int[sistemasOperacionais.length];
+        int totalVotos = 0;
+        
+        System.out.println("Enquete: Qual o melhor Sistema Operacional para uso em servidores?");
+        System.out.println("Digite o número correspondente ao sistema operacional ou 0 para encerrar a enquete.");
+        
+        int voto;
+        do {
+            System.out.print("Digite o número (1 a 6 ou 0 para encerrar): ");
+            voto = scanner.nextInt();
+            
+            if (voto >= 1 && voto <= sistemasOperacionais.length) {
+                votos[voto - 1]++;
+                totalVotos++;
+            } else if (voto != 0) {
+                System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (voto != 0);
+        
+        System.out.println("\nResultado da Enquete:");
+        System.out.println("Sistema Operacional     Votos   %");
+        System.out.println("-------------------                -----     ---");
+        
+        for (int i = 0; i < sistemasOperacionais.length; i++) {
+            double percentual = (double) votos[i] / totalVotos * 100;
+            System.out.printf("%-25s %-8d %.2f%%\n", sistemasOperacionais[i], votos[i], percentual);
+        }
+        
+        System.out.println("-------------------                -----     ---");
+        System.out.println("Total                               " + totalVotos);
+        
+        int indiceVencedor = encontrarIndiceVencedor(votos);
+        System.out.println("\nO Sistema Operacional mais votado foi o " + sistemasOperacionais[indiceVencedor] +
+                           ", com " + votos[indiceVencedor] + " votos, correspondendo a " +
+                           String.format("%.2f", ((double) votos[indiceVencedor] / totalVotos * 100)) + "% dos votos.");
+        
+        scanner.close();
+    }
+    
+    // Função para encontrar o índice do sistema operacional com mais votos
+    public static int encontrarIndiceVencedor(int[] votos) {
+        int indiceVencedor = 0;
+        int maiorNumeroVotos = votos[0];
+        
+        for (int i = 1; i < votos.length; i++) {
+            if (votos[i] > maiorNumeroVotos) {
+                indiceVencedor = i;
+                maiorNumeroVotos = votos[i];
+            }
+        }
+        
+        return indiceVencedor;
+    }
+}
